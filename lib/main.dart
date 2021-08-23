@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:test_flutter/register.dart';
+import 'package:test_flutter/reset_pass.dart';
 import 'package:test_flutter/sec_sreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -107,15 +108,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     labelText: 'Password'),
               ),
               ElevatedButton(onPressed: ()async {
+
                 try {
-                 await firebaseAuth.signInWithEmailAndPassword(
-                      email: emailController.text,
+                  await firebaseAuth.signInWithEmailAndPassword(
+                      email:emailController.text ,
                       password: passwordController.text
                   );
-                 Navigator.push(
-                   context,
-                   MaterialPageRoute(builder: (context) => SecScreen()),
-                 );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SecScreen()),
+                  );
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
                     print('No user found for that email.');
@@ -123,7 +125,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     print('Wrong password provided for that user.');
                   }
                 }
-              }, child: Text('Login'))
+
+
+
+                //
+                // try {
+                //  await firebaseAuth.signInWithEmailAndPassword(
+                //       email: emailController.text,
+                //       password: passwordController.text
+                //   );
+                //  Navigator.push(
+                //    context,
+                //    MaterialPageRoute(builder: (context) => SecScreen()),
+                //  );
+                // } on FirebaseAuthException catch (e) {
+                //   if (e.code == 'user-not-found') {
+                //     print('No user found for that email.');
+                //   } else if (e.code == 'wrong-password') {
+                //     print('Wrong password provided for that user.');
+                //   }
+                // }
+              }, child: Text('Login')),
+              ElevatedButton(onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ResetPassword()),
+                );
+              }, child: Text('Reset'))
             ],
           ),
         ),
@@ -134,7 +162,10 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.tealAccent,
         ),
         onPressed: () {
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Register()),
+          );
         },
       ),
     );
